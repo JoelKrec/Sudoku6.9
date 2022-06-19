@@ -5,126 +5,148 @@
 #include <stdbool.h>
 #include "eingabe.h"
 
+
+void increase_vertical(int* position)
+{
+    *position -= 3;
+    if(*position <= -1)
+    {
+        *position += 9;
+    }
+}
+
+void go_up(int* posSmall, int* posBig, bool* detail)
+{
+    if(*detail)
+    {
+        increase_vertical(posSmall);
+    }
+    else
+    {
+        increase_vertical(posBig);
+    }
+}
+
+void decrease_vertical(int* position)
+{
+    *position += 3;
+    if(*position >= 9)
+    {
+        *position -= 9;
+    }
+}
+
+void go_down(int* posSmall, int* posBig, bool* detail)
+{
+    if(*detail)
+    {
+        decrease_vertical(posSmall);
+    }
+    else
+    {
+        decrease_vertical(posBig);
+    }
+}
+
+void increase_horizontal(int* position)
+{
+    *position += 1;
+    switch(*position)
+    {
+    case 3:
+        *position = 0;
+        break;
+    case 6:
+        *position = 3;
+        break;
+    case 9:
+        *position = 6;
+        break;
+    }
+}
+
+void go_right(int* posSmall, int* posBig, bool* detail)
+{
+    if(*detail)
+    {
+        increase_horizontal(posSmall);
+    }
+    else
+    {
+        increase_horizontal(posBig);
+    }
+}
+
+void decrease_horizontal(int* position)
+{
+    *position -= 1;
+    switch(*position)
+    {
+    case -1:
+        *position = 2;
+        break;
+    case 2:
+        *position = 5;
+        break;
+    case 5:
+        *position = 8;
+        break;
+    }
+}
+
+void go_left(int* posSmall, int* posBig, bool* detail)
+{
+    if(*detail)
+    {
+        decrease_horizontal(posSmall);
+    }
+    else
+    {
+        decrease_horizontal(posBig);
+    }
+}
+
 void get_input(int* posBig, int* posSmall, bool* detail, int (*sudoku)[9][9])
 {
 
-    // 0 Indexing bei positionen beachten!!!
+    int input_number = 0;
+    bool change_number = false;
+
     int c = getch();
     switch(c)
     {
-    case 119:
-    case 72:
+
+    // Handling movement
+
+    case 119: // = W
+    case 72:  // = Arrow up
         printf("UP\n");
-        if(*detail)
-        {
-            *posSmall -= 3;
-            if(*posSmall <= 0)
-            {
-                *posSmall += 9;
-            }
-        }
-        else
-        {
-            *posBig -= 3;
-            if(*posBig <= 0)
-            {
-                *posBig += 9;
-            }
-        }
+
+        go_up(posSmall, posBig, detail);
+
         break;
-    case 115:
-    case 80:
+    case 115:  // = S
+    case 80:   // = Arrow down
         printf("DOWN\n");
-        if(*detail)
-        {
-            *posSmall += 3;
-            if(*posSmall >= 10)
-            {
-                *posSmall -= 9;
-            }
-        }
-        else
-        {
-            *posBig += 3;
-            if(*posBig >= 10)
-            {
-                *posBig -= 9;
-            }
-        }
+
+        go_down(posSmall, posBig, detail);
+
         break;
-    case 100:
-    case 77:
+    case 100:  // = D
+    case 77:   // = Arrow right
         printf("RIGHT\n");
-        if(*detail)
-        {
-            *posSmall += 1;
-            switch(*posSmall)
-            {
-            case 4:
-                *posSmall = 1;
-                break;
-            case 7:
-                *posSmall = 4;
-                break;
-            case 10:
-                *posSmall = 7;
-                break;
-            }
-        }
-        else
-        {
-            *posBig += 1;
-            switch(*posBig)
-            {
-            case 4:
-                *posBig = 1;
-                break;
-            case 7:
-                *posBig = 4;
-                break;
-            case 10:
-                *posBig = 7;
-                break;
-            }
-        }
+
+        go_right(posSmall, posBig, detail);
+
         break;
-    case 97:
-    case 75:
+    case 97:   // = A
+    case 75:   // = Arrow left
         printf("LEFT\n");
-        if(*detail)
-        {
-            *posSmall -= 1;
-            switch(*posSmall)
-            {
-            case 0:
-                *posSmall = 3;
-                break;
-            case 3:
-                *posSmall = 6;
-                break;
-            case 6:
-                *posSmall = 9;
-                break;
-            }
-        }
-        else
-        {
-            *posBig -= 1;
-            switch(*posBig)
-            {
-            case 0:
-                *posBig = 3;
-                break;
-            case 3:
-                *posBig = 6;
-                break;
-            case 6:
-                *posBig = 9;
-                break;
-            }
-        }
+
+        go_left(posSmall, posBig, detail);
+
         break;
-    case 32:
+    case 32:   // = Spacebar
         printf("Array Switch!\n");
         if(*detail)
         {
@@ -135,36 +157,53 @@ void get_input(int* posBig, int* posSmall, bool* detail, int (*sudoku)[9][9])
             *detail = true;
         }
         break;
+
+    // Handling number input
+
     case 49:
-        (*sudoku)[*posBig][*posSmall] = 1;
+        input_number = 1;
+        change_number = true;
         break;
     case 50:
-        (*sudoku)[*posBig][*posSmall] = 2;
+        input_number = 2;
+        change_number = true;
         break;
     case 51:
-        (*sudoku)[*posBig][*posSmall] = 3;
+        input_number = 3;
+        change_number = true;
         break;
     case 52:
-        (*sudoku)[*posBig][*posSmall] = 4;
+        input_number = 4;
+        change_number = true;
         break;
     case 53:
-        (*sudoku)[*posBig][*posSmall] = 5;
+        input_number = 5;
+        change_number = true;
         break;
     case 54:
-        (*sudoku)[*posBig][*posSmall] = 6;
+        input_number = 6;
+        change_number = true;
         break;
     case 55:
-        (*sudoku)[*posBig][*posSmall] = 7;
+        input_number = 7;
+        change_number = true;
         break;
     case 56:
-        (*sudoku)[*posBig][*posSmall] = 8;
+        input_number = 8;
+        change_number = true;
         break;
     case 57:
-        (*sudoku)[*posBig][*posSmall] = 9;
+        input_number = 9;
+        change_number = true;
         break;
     default:
         printf("%i", c);
         break;
+    }
+
+    if(change_number)
+    {
+        (*sudoku)[*posBig][*posSmall] = input_number;
     }
 }
 
@@ -173,7 +212,7 @@ int main()
     printf("Hello world!\n");
 
     int sudoku[9][9] = {{0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}, {0,1,2,3,4,5,6,7,8}};
-    clock_t st, et;
+    clock_t st;
     int frame = 0;
 
     int posX = 0;
