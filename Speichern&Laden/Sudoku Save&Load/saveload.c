@@ -124,9 +124,23 @@ int load(int saveId, struct Savegame* savegame) {
                     field++;
                 }
             }
+            // Gespielte Zeit einlesen
+            char* substr = strstr(fileContents, "timeplayed#\n");
+            char timeplayed[16]; // Wegen dieser Längen-Limitation können Sudokus welche länger als ca. 3,17 Mio. Jahre gespielt worden sind nicht korrekt gelesen werden, weshalb man nicht zu lange beim lösen überlegen sollte
+            for (int i = strlen("timeplayed#\n"); i < strlen(substr); i++) {
+                if (substr[i] == ';') {
+                    break;
+                }
+                /* Prüfen, ob char aus dem aus der Datei gelesenen String eine Ziffer ist, da zusätzliche Zeichen,
+                * wie die vertikalen Balken '|' nur zur schöneren Anzeige in der Speicherdatei dienen und hier verworfen werden können
+                */
+                if (isdigit(substr[i])) {
+                    timeplayed[i - strlen("timeplayed#\n")] = substr[i];
+                }
+            }
 
             savegame->id = saveId;
-            savegame->timePlayed = 0;
+            sscanf(timeplayed, "%d", &savegame->timePlayed);
 
             // Speicher freigeben
             free(fileContents);

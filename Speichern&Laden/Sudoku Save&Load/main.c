@@ -27,6 +27,7 @@ int main()
             }
             printf("\n");
         }
+        printf("%d", savegame2.timePlayed);
     }
 
     return 0;
