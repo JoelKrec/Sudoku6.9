@@ -1,19 +1,21 @@
 # depslib dependency file v1.0
-1655999969 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
+1656161299 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
 	<ctype.h>
+	<windows.h>
 	"saveload.h"
 
-1655931339 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
+1656152698 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
 
 1655754779 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
 
-1655999969 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\main.c
+1656160334 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\main.c
 	<stdio.h>
 	<stdlib.h>
+	<conio.h>
 	"saveload.h"
 
 1655974611 source:c:\users\lte\documents\github\sudoku6.9\speichern&laden\sudoku save&load\main.c
