@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1656184339 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
+1656270491 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
 	"saveload.h"
+	"solveSudoku.h"
 
-1656184560 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
+1656269340 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -57,7 +58,7 @@
 
 1656170358 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_time.h
 
-1656184359 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\game_input.c
+1656269345 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\game_input.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -81,5 +82,21 @@
 1656170358 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_time.c
 	<time.h>
 	"sudoku_time.h"
+	<stdbool.h>
+
+1656260449 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\displaygame.c
+	<stdio.h>
+	<stdbool.h>
+	<windows.h>
+	"displayGame.h"
+
+1656258878 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\displaygame.h
+
+1656258878 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\solvesudoku.c
+	<stdio.h>
+	<stdbool.h>
+	"solveSudoku.h"
+
+1656260256 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\solvesudoku.h
 	<stdbool.h>
 

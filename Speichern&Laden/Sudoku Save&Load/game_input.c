@@ -234,6 +234,15 @@ void get_input_start_state(Game_state* state, clock_t* time)
             }
             printf("\n");
         }
+    } else {
+         generateNewSudoku(&game, 0);
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                printf("%d", game.sudoku[i][j]);
+            }
+            printf("\n");
+        }
     }
 
     char c = getch();
