@@ -12,11 +12,11 @@
 * If it finds a number that is double he will return 0, by a solved Sudoku he will return 1 and by a not finished Sudoku it will return -1;
 *******************************/
 
-int sudoku_check (int Sudoku[9][9]) {
+int sudokuCheck (int Sudoku[9][9]) {
     int x = 0, y = 0, i = 0, j = 0, k = 0;
     int check[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    if(!sudoku_finished(Sudoku)){
+    if(!sudokuFinished(Sudoku)){
         return -1;
     }
 
@@ -81,7 +81,7 @@ int sudoku_check (int Sudoku[9][9]) {
 * If the Array is fully filled it will return true, if not it will return false;
 *******************************/
 
-bool sudoku_finished (int Sudoku[9][9]){
+bool sudokuFinished (int Sudoku[9][9]){
     for (int y = 0; y < 9; y++){
         for(int x = 0; x < 9; x++){
             if(!Sudoku[y][x]){

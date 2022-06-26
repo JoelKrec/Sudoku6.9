@@ -9,21 +9,21 @@
 * Parameter:
 * int BREITE:           Giving over the width of the Sudoku grid.
 * int HOEHE:            Giving over the hight of the Sudoku grid.
-* int sel_big_grid:     Giving over which one of the 9 of the big grids is selected.
-* int sel_small_grid:   Giving over which one of the 9 of the small grids int a selected big grid is selected.
-* bool move_grid:       Giving over if the player is moving in the big grid or small grid.
+* int selBigGrid:     Giving over which one of the 9 of the big grids is selected.
+* int selSmallGrid:   Giving over which one of the 9 of the small grids int a selected big grid is selected.
+* bool moveGrid:       Giving over if the player is moving in the big grid or small grid.
 *
 * Moving in the big grid will remove the red selection border on the small grid and put it back when small grid is being selected.
 * The hight and with should be a divider of 18. The widht should be double the hight.
 *******************************/
 
-void grid (int BREITE, int HOEHE, int sel_big_grid, int sel_small_grid, bool move_grid) {
+void grid (int BREITE, int HOEHE, int selBigGrid, int selSmallGrid, bool moveGrid) {
 
     int BREITE_SMALL = BREITE / 3, HOEHE_SMALL = HOEHE / 3;
 
     for (int i = 0; i < HOEHE + 1; i++){
         for (int j = 0; j < BREITE + 1; j++){
-            set_color(sel_grid_color(sel_big_grid, sel_small_grid, BREITE, HOEHE, j, i, move_grid));
+            set_color(sel_grid_color(selBigGrid, selSmallGrid, BREITE, HOEHE, j, i, moveGrid));
 
             if (i == 0 && j == 0)
                 printf("\xC9");
@@ -91,7 +91,7 @@ void grid (int BREITE, int HOEHE, int sel_big_grid, int sel_small_grid, bool mov
 * int HOEHE:        Giving over the hight of the Sudoku grid.
 *******************************/
 
-void fill_grid(int Sudoku[9][9], int BREITE, int HOEHE){
+void fillGrid(int Sudoku[9][9], int BREITE, int HOEHE){
     int PosX = BREITE / 18;
     int PosY = HOEHE / 18;
     int x_B, x_S, y_B, y_S, x = 0, y = 0;
@@ -119,39 +119,39 @@ void fill_grid(int Sudoku[9][9], int BREITE, int HOEHE){
 * Returns of the color of the grid based on what is selected.
 *
 * Parameter:
-* int sel_big_grid:     Gives over what of the 9 big grids is being selected.
-* int sel_small_grid:   Giving over which one of the 9 of the small grids int a selected big grid is selected.
+* int selBigGrid:     Gives over what of the 9 big grids is being selected.
+* int selSmallGrid:   Giving over which one of the 9 of the small grids int a selected big grid is selected.
 * int BREITE:           Giving over the width of the Sudoku grid.
 * int HOEHE:            Giving over the hight of the Sudoku grid.
 * int posX:             Gives over the current X position of the Courser while he is building the grid.
 * int posY:             Gives over the current Y position of the Courser while he is building the grid.
-* bool move_grid:       Gives over if whe move in the big grid or the small grid in the selected big grid.
+* bool moveGrid:       Gives over if whe move in the big grid or the small grid in the selected big grid.
 *
 * Function returns 4 for the color red and 7 for the color white.
 *******************************/
 
-int sel_grid_color(int sel_big_grid, int sel_small_grid, int BREITE, int HOEHE, int posX, int posY, bool move_grid){
+int selGridColor(int selBigGrid, int selSmallGrid, int BREITE, int HOEHE, int posX, int posY, bool moveGrid){
     int PosX_big = BREITE / 3;
     int PosX_small =  BREITE / 9;
     int PosY_big = HOEHE / 3;
     int PosY_small = HOEHE / 9;
     int x_B = 0, y_B = 0, x_S = 0, y_S = 0;
 
-    grid_coord(&x_B, &y_B, sel_big_grid);
-    grid_coord(&x_S, &y_S, sel_small_grid);
+    grid_coord(&x_B, &y_B, selBigGrid);
+    grid_coord(&x_S, &y_S, selSmallGrid);
 
     if((posX >= x_B * PosX_big && posX <= (x_B + 1) * PosX_big && (posY == y_B * PosY_big || posY == (y_B + 1) * PosY_big)) || (posY >= y_B * PosY_big && posY <= (y_B + 1) * PosY_big && (posX == x_B * PosX_big || posX == (x_B + 1) * PosX_big))) {
         return 4;
 
     }
-    if(move_grid && ((posX >= x_B * PosX_big + x_S * PosX_small && posX <= x_B * PosX_big + (x_S +1) * PosX_small && (posY == y_B * PosY_big + y_S * PosY_small || posY == y_B * PosY_big + (y_S + 1) * PosY_small)) || (posY >= y_B * PosY_big + y_S * PosY_small && posY <= y_B * PosY_big + (y_S +1) * PosY_small && (posX == x_B * PosX_big + x_S * PosX_small || posX == x_B * PosX_big + (x_S + 1) * PosX_small)))) {
+    if(moveGrid && ((posX >= x_B * PosX_big + x_S * PosX_small && posX <= x_B * PosX_big + (x_S +1) * PosX_small && (posY == y_B * PosY_big + y_S * PosY_small || posY == y_B * PosY_big + (y_S + 1) * PosY_small)) || (posY >= y_B * PosY_big + y_S * PosY_small && posY <= y_B * PosY_big + (y_S +1) * PosY_small && (posX == x_B * PosX_big + x_S * PosX_small || posX == x_B * PosX_big + (x_S + 1) * PosX_small)))) {
 
         return 4;
     }
     return 7;
 }
 
-void grid_coord(int* x, int* y, int pos) {
+void gridCoord(int* x, int* y, int pos) {
     switch (pos){
         case 0:
             *x = 0;
@@ -200,7 +200,7 @@ void grid_coord(int* x, int* y, int pos) {
 * int y:    Gives over the y coordinate on where the cursor should be set.
 *******************************/
 
-int set_cursor(int x, int y)
+int setCursor(int x, int y)
 {
     COORD koordinaten;
     koordinaten.X= x;
@@ -229,7 +229,7 @@ int set_cursor(int x, int y)
 *   Registrierungswert "DefaultColor" bestimmt.
 *******************************/
 
-int set_color(char color)
+int setColor(char color)
 {
     /*
 
