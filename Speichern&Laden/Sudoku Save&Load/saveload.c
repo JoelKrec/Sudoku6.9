@@ -1,4 +1,5 @@
 #include "saveload.h"
+#include "solveSudoku.h"
 
 /**
 * Funktion zum anzeigen des Spielstand-Laden-Bildschirmes
@@ -16,6 +17,9 @@ int loadScreen(Savegame* game) {
 
     int maxDisplayCount = 12; // So viele Speicherdateien werden angezeigt (Länge der Liste)
     int maxCount = saves.fileCount;
+    if (maxDisplayCount > maxCount) {
+        maxDisplayCount = maxCount;
+    }
     int displayOffset = (saves.fileCount + 1) / 2 + (maxDisplayCount - 1) / 2;
     int i, counter;
 
@@ -103,6 +107,49 @@ int loadScreen(Savegame* game) {
     printf("\n[SUCCESS] Save %s loaded!\n\n", saves.fileNames[i]);
 
     return 1;
+}
+
+/**
+* Funktion zum generieren eines neuen Sudokus
+*
+* @param Savegame* | Spiestand mit neuem Sudoku
+*/
+void generateNewSudoku(Savegame* savegame, int difficulty)
+{
+     int sudoku[9][9] = {
+        {7,8,2,1,4,5,6,9,3},
+        {9,1,3,8,7,6,4,5,2},
+        {4,5,6,9,2,3,7,1,8},
+        {2,7,9,5,6,4,3,1,8},
+        {5,3,1,2,9,8,7,6,4},
+        {8,6,4,1,3,7,5,9,2},
+        {4,5,1,9,2,7,8,3,6},
+        {6,2,7,3,8,5,1,4,9},
+        {3,8,9,6,4,1,2,7,5},
+    };
+
+    srand(time(NULL));
+    /* 1. Lade zufällige Zahlen in Sudoku
+    *  2. Prüfe, ob Sudoku gelöst
+    *  3. Wenn gelöst, setze zufällige Felder auf 0, sonst fange wieder bei 1. an
+    */
+    printf("Generiere neues Sudoku...\n");
+    do {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                savegame->sudoku[i][j] = sudoku[i][j];//(1 + (rand() % 9));
+            }
+        }
+    } while (sudokuCheck(savegame->sudoku) != 1);
+
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            if ((rand() % (3 - difficulty)) == 0) {
+                savegame->sudoku[i][j] = 0;
+            }
+        }
+    }
+    printf("Neues Sudoku generiert!\n");
 }
 
 /**
@@ -395,7 +442,7 @@ int listDirectoryContents(char* sDir, char* fileType, FileArray* files, int incl
 
     if((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE)
     {
-        printf("Path not found: [%s]\n", sDir);
+        //printf("Path not found: [%s]\n", sDir);
         return 0;
     }
 

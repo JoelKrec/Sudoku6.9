@@ -32,6 +32,7 @@ typedef struct FileArray
 } FileArray;
 
 int loadScreen(Savegame* game);
+void generateNewSudoku(Savegame* savegame);
 char* save(struct Savegame savegame);
 int load(char* saveName, struct Savegame* savegame);
 int checkIntegrity(char* saveName);
