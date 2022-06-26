@@ -1,22 +1,25 @@
 # depslib dependency file v1.0
-1656161299 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
+1656184339 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
+	"saveload.h"
+
+1656184560 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
 	<ctype.h>
 	<windows.h>
-	"saveload.h"
-
-1656152698 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
+	<conio.h>
 
 1655754779 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
 
-1656160334 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\main.c
-	<stdio.h>
-	<stdlib.h>
-	<conio.h>
+1656177867 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\main.c
+	"control_screen.h"
+	"end_screen.h"
+	"game_input.h"
 	"saveload.h"
+	"sudoku_state.h"
+	"sudoku_time.h"
 
 1655974611 source:c:\users\lte\documents\github\sudoku6.9\speichern&laden\sudoku save&load\main.c
 	<stdio.h>
@@ -32,4 +35,51 @@
 	<string.h>
 	<ctype.h>
 	"saveload.h"
+
+1656177267 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\control_screen.c
+	"control_screen.h"
+	<stdlib.h>
+	<stdio.h>
+	<unistd.h>
+	<windows.h>
+
+1656177129 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\control_screen.h
+
+1656170119 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\end_screen.c
+	"end_screen.h"
+	<stdio.h>
+	<time.h>
+	"sudoku_time.h"
+
+1656170119 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\end_screen.h
+	<stdbool.h>
+	<time.h>
+
+1656170358 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_time.h
+
+1656184359 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\game_input.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<time.h>
+	<stdbool.h>
+	"game_input.h"
+	"sudoku_state.h"
+	"saveload.h"
+
+1656177473 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\game_input.h
+	"sudoku_state.h"
+
+1656170358 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_state.h
+
+1656175458 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_state.c
+	<stdio.h>
+	<time.h>
+	<stdbool.h>
+	"sudoku_state.h"
+
+1656170358 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_time.c
+	<time.h>
+	"sudoku_time.h"
+	<stdbool.h>
 
