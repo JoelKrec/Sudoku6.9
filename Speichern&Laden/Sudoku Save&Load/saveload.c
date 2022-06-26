@@ -20,7 +20,7 @@ int loadScreen(Savegame* game) {
     if (maxDisplayCount > maxCount) {
         maxDisplayCount = maxCount;
     }
-    int displayOffset = (saves.fileCount + 1) / 2 + (maxDisplayCount - 1) / 2;
+    int displayOffset = (saves.fileCount) / 2 + maxDisplayCount / 2;
     int i, counter;
 
     int saveLoaded = 0;
@@ -40,13 +40,13 @@ int loadScreen(Savegame* game) {
                 i -= maxCount;
             }
             // Aktuell gewählter Spielstand ist in der Mitte und mit Pfeilen angezeigt
-            if (counter == (saves.fileCount / 2) + (saves.fileCount - maxDisplayCount) / 2) {
+            if (counter == (saves.fileCount / 2) + (saves.fileCount - maxDisplayCount + 1) / 2) {
                 printf(" >%3d: ", i + 1);
             } else {
                 printf("  %3d: ", i + 1);
             }
             printf("%s", saves.fileNames[i]);
-            if (counter == (saves.fileCount / 2) + (saves.fileCount - maxDisplayCount) / 2) {
+            if (counter == (saves.fileCount / 2) + (saves.fileCount - maxDisplayCount + 1) / 2) {
                 printf("< \n");
             } else {
                 printf("  \n");

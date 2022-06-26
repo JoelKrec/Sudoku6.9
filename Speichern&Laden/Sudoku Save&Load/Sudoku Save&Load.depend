@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-1656263283 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
+1656270491 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.c
 	"saveload.h"
 	"solveSudoku.h"
 
-1656261328 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
+1656269340 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\saveload.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -58,7 +58,7 @@
 
 1656170358 c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\sudoku_time.h
 
-1656260825 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\game_input.c
+1656269345 source:c:\users\lukas\documents\github\sudoku6.9\speichern&laden\sudoku save&load\game_input.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
