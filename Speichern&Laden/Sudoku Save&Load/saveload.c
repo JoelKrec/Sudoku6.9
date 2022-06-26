@@ -1,23 +1,123 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
-#include <ctype.h>
-#include <windows.h>
 #include "saveload.h"
+
+/**
+* Funktion zum anzeigen des Spielstand-Laden-Bildschirmes
+*
+* @param Savegame* game | Spielstand-Struktur, in die der Spielstand geladen werden soll
+*
+* @return int | 1 bei Erfolg, 0
+*/
+int loadScreen(Savegame* game) {
+    // Lade alle im Spielstandverzeichnis existierenden Spielstanddateien
+    FileArray saves;
+    if (! listDirectoryContents("savegames", "sudokusave", &saves, 0, 0)) {
+        return 0;
+    }
+
+    int maxDisplayCount = 12; // So viele Speicherdateien werden angezeigt (Länge der Liste)
+    int maxCount = saves.fileCount;
+    int displayOffset = (saves.fileCount + 1) / 2 + (maxDisplayCount - 1) / 2;
+    int i, counter;
+
+    int saveLoaded = 0;
+
+    while (! (saveLoaded == 1)) {
+        // Ausgabe der Spielstandauswahl mit scrollender Auswahl
+        printHeadingSub("Load Game");
+        printf("\n Num    Name\n\n");
+        counter = 0;
+        // Wenn die Anzahl Speicherstände größer ist, als maximal angezeigt werden sollen, bekommt die Liste oben ein Offset, welches nicht angezeigt wird
+        if (saves.fileCount > maxDisplayCount) {
+            counter = saves.fileCount - maxDisplayCount;
+        }
+        for (; counter < maxCount; counter++) {
+            i = counter + displayOffset;
+            if (i > maxCount - 1) {
+                i -= maxCount;
+            }
+            // Aktuell gewählter Spielstand ist in der Mitte und mit Pfeilen angezeigt
+            if (counter == (saves.fileCount / 2) + (saves.fileCount - maxDisplayCount) / 2) {
+                printf(" >%3d: ", i + 1);
+            } else {
+                printf("  %3d: ", i + 1);
+            }
+            printf("%s", saves.fileNames[i]);
+            if (counter == (saves.fileCount / 2) + (saves.fileCount - maxDisplayCount) / 2) {
+                printf("< \n");
+            } else {
+                printf("  \n");
+            }
+        }
+        printf("\n\n");
+        printf(" Navigate - ARROW UP & ARROW DOWN OR W & S\n");
+        printf(" Load     - ENTER\n");
+        printf(" Exit     - ESC\n");
+        print_full_line();
+
+        int loadFailed = 0;
+        // Tastendrücke erkennen
+        int key = getch();
+        switch (key) {
+            case KEY_ENTER:
+                i -= (maxDisplayCount - 2) / 2;
+                if (i < 0) {
+                    i += saves.fileCount;
+                }
+                saveLoaded = load(saves.fileNames[i], game);
+                loadFailed = ! saveLoaded;
+                break;
+            case KEY_ESC:
+                return 0;
+            case 224:
+                switch(getch()) {
+                    case KEY_ARROW_UP: // Pfeiltaste nach oben
+                        displayOffset--;
+                        break;
+                    case KEY_ARROW_DOWN: // Pfeiltaste nach unten
+                        displayOffset++;
+                        break;
+                }
+                break;
+            case 'w':
+                displayOffset--;
+                break;
+            case 's':
+                displayOffset++;
+                break;
+        }
+
+        // Wraparound des Offsets
+        if (displayOffset < 0) {
+            displayOffset = maxCount - 1;
+        }
+        if (displayOffset > maxCount - 1) {
+            displayOffset = 0;
+        }
+        // Fenster leeren
+        cls();
+        // Meldung anzeigen, wenn laden eines Spielstandes fehlgeschlagen ist
+        if (loadFailed) {
+            printf("\n[ERROR] Loading of save '%s' failed!\n\n", saves.fileNames[i]);
+        }
+    }
+    printf("\n[SUCCESS] Save %s loaded!\n\n", saves.fileNames[i]);
+
+    return 1;
+}
 
 /**
 * Funktion zum speichern eines Sudoku-Spielstandes in einer Texttdatei
 *
-* @param struct Savegame savegame | Der zu speichernde Spielstand
+* @param Savegame savegame | Der zu speichernde Spielstand
 *
 * @return char* | Name des Speicherstandes bei Erfolg, sonst "-1"
 */
-char* save(struct Savegame savegame)
+char* save(Savegame savegame)
 {
     FILE* out;
     FILE* duplicate;
-    char buffer_out[512], fileName[64];
+    char buffer_out[512];
+    char* fileName;
     time_t now = time(NULL);
 
     // Wenn kein Name übergeben wurde, neue setzen (Unix Timestamp)
@@ -26,11 +126,11 @@ char* save(struct Savegame savegame)
     }
 
     // Namen der Speicherdatei zusammensetzen und bei bereits vorhandener Datei mit gleichem Namen '_x' anhängen, wobei x eine aufsteigende Zahl ist
-    sprintf_s(fileName, sizeof(fileName), "savegames/%s.sudokusave", savegame.name);
+    asprintf(&fileName, "savegames/%s.sudokusave", savegame.name);
     fopen_s(&duplicate, fileName, "r");
     int appendNum = 0;
     while (! (duplicate == NULL)) {
-        sprintf_s(fileName, sizeof(fileName), "savegames/%s_%d.sudokusave", savegame.name, appendNum);
+        asprintf(&fileName, "savegames/%s_%d.sudokusave", savegame.name, appendNum);
         fopen_s(&duplicate, fileName, "r");
         appendNum++;
     }
@@ -102,13 +202,13 @@ char* save(struct Savegame savegame)
 * @param char* saveName | Name des zu ladenden Spielstandes
 * @param struct Savegame* savegame | Spielstand-Struktur, in die der Spielstand geladen werden soll
 *
-* @return int | 1 bei Erfolg, 0 bei Misserfolg
+* @return int | 1 bei Erfolg, 0 wenn kein Dateiinhalt geladen werden konnte, -1 wenn die Integrität der Speicherdatei nicht gegeben ist
 */
-int load(char* saveName, struct Savegame* savegame)
+int load(char* saveName, Savegame* savegame)
 {
-    char fileName[64];
+    char* fileName;
     // Namen der Speicherdatei zusammensetzen
-    sprintf_s(fileName, sizeof(fileName), "savegames/%s.sudokusave", saveName);
+    asprintf(&fileName, "savegames/%s.sudokusave", saveName);
 
     char* fileContents;
     if ((fileContents = getFileContentsAsString(fileName)) != NULL) {
@@ -156,12 +256,13 @@ int load(char* saveName, struct Savegame* savegame)
 
             return 1;
         }
+        return -1;
     }
     return 0;
 }
 
 /**
-* Funktion zum überprüfen der Integrität eines Sudoku-Spielstandes in einer Texttdatei
+* Funktion zum überprüfen der Integrität eines Sudoku-Spielstandes
 *
 * @param char* saveName | Name des zu überprüfenden Spielstandes
 *
@@ -169,9 +270,9 @@ int load(char* saveName, struct Savegame* savegame)
 */
 int checkIntegrity(char* saveName)
 {
-    char fileName[64];
+    char* fileName;
     // Namen der Speicherdatei zusammensetzen
-    sprintf_s(fileName, sizeof(fileName), "savegames/%s.sudokusave", saveName);
+    asprintf(&fileName, "savegames/%s.sudokusave", saveName);
 
     char* fileContents;
     if ((fileContents = getFileContentsAsString(fileName)) != NULL) {
@@ -195,7 +296,6 @@ int checkIntegrity(char* saveName)
                 return 0;
             }
             sectionEnd = (int)(section - fileContents);
-            printf_s("\n%d, %d", sectionStart, sectionEnd);
         }
         /* Prüfen, ob die Summe aller Ziffern und Leerzeichen im Bereich playingfield# genau 81(9x9) beträgt,
         * um sicherzustellen, dass beim laden nicht auf nicht-existente Array-Keys zugegriffen wird,
@@ -277,7 +377,7 @@ char* getFileContentsAsString(char* fileName)
 *
 * (Abgewandelt von: https://stackoverflow.com/questions/2314542/listing-directory-contents-using-c-and-windows)
 */
-int listDirectoryContents(char* sDir, char* fileType, struct FileArray* files, int includeWholePath, int includeFileType)
+int listDirectoryContents(char* sDir, char* fileType, FileArray* files, int includeWholePath, int includeFileType)
 {
     // Datei- und Handle-Struktur
     WIN32_FIND_DATA fdFile;
