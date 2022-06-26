@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Sudoku" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Sudoku" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Sudoku" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="control_screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="control_screen.h" />
+		<Unit filename="displayGame.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="displayGame.h" />
+		<Unit filename="end_screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="end_screen.h" />
+		<Unit filename="game_input.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game_input.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="saveScreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="saveScreen.h" />
+		<Unit filename="saveload.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="saveload.h" />
+		<Unit filename="solveSudoku.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="solveSudoku.h" />
+		<Unit filename="sudoku_state.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sudoku_state.h" />
+		<Unit filename="sudoku_time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sudoku_time.h" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
